@@ -1,105 +1,58 @@
+/* style.css */
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+/* Tailwind CSS handles the core layout and responsiveness.
+  This file adds premium visual touches and custom webkit styling.
+*/
+
+/* --- Smooth Scrolling & Body Resets --- */
+html {
   scroll-behavior: smooth;
 }
 
-/* NAVBAR */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  background: #166534;
-  color: white;
-  padding: 15px 30px;
+body {
+  margin: 0;
+  /* Prevent horizontal scrolling caused by animations */
+  overflow-x: hidden; 
+  -webkit-font-smoothing: antialiased;
 }
 
-.navbar a {
-  color: white;
-  margin-left: 15px;
-  text-decoration: none;
+/* --- Custom Scrollbar --- */
+/* Gives the browser a modern, customized scrollbar matching the brand colors */
+::-webkit-scrollbar {
+  width: 12px;
 }
 
-/* HERO */
-.hero {
-  height: 90vh;
-  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-              url("https://images.unsplash.com/photo-1470115636492-6d2b56f9146d");
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  text-align: center;
+::-webkit-scrollbar-track {
+  background: #f8fafc; /* Light gray matching the page background */
 }
 
-.hero button {
-  padding: 10px 20px;
-  background: white;
-  border: none;
-  border-radius: 20px;
-  color: green;
-  cursor: pointer;
+::-webkit-scrollbar-thumb {
+  background: #059669; /* Brand Emerald Green */
+  border-radius: 6px;
+  border: 3px solid #f8fafc; /* Creates a nice padded effect */
 }
 
-/* SECTIONS */
-.section {
-  padding: 60px 20px;
-  text-align: center;
+::-webkit-scrollbar-thumb:hover {
+  background: #047857; /* Darker green on hover */
 }
 
-.problem {
-  background: #fee2e2;
+/* --- Custom Animations --- */
+/* Floating animation for icons or hero elements */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
 }
 
-.objectives {
-  background: #ecfdf5;
+.animate-float {
+  animation: float 4s ease-in-out infinite;
 }
 
-.solutions {
-  background: #f0fdf4;
-}
-
-.tips {
-  background: #f1f5f9;
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
-}
-
-/* CARD */
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-8px);
-}
-
-/* FOOTER */
-footer {
-  background: #1f2937;
-  color: white;
-  text-align: center;
-  padding: 15px;
-}
-
-/* BUTTON */
-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+/* --- Utility Enhancements --- */
+/* A clean glassmorphism utility in case you want to use it on other elements */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
