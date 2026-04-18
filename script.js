@@ -6,63 +6,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.slide');
     let currentHeroSlide = 0;
 
-    const nextHeroSlide = () => {
-        slides[currentHeroSlide].classList.remove('active');
-        currentHeroSlide = (currentHeroSlide + 1) % slides.length;
-        slides[currentHeroSlide].classList.add('active');
-    };
-
-    // Slow transition for hero (5 seconds)
-    setInterval(nextHeroSlide, 5000);
-
-
-    // --- 2. Tip Section Carousel (The "Swipe Nicely" Logic) ---
-    const tipTrack = document.querySelector('.tip-slider-track');
-    const nextBtn = document.getElementById('nextTip');
-    const prevBtn = document.getElementById('prevTip');
-    
-    if (tipTrack && nextBtn) {
-        let currentScrollPos = 0;
-
-        const slideTips = (direction) => {
-            // Calculate width of one card + its gap
-            const cardWidth = document.querySelector('.modal-card-container').offsetWidth + 40; 
-            const maxScroll = tipTrack.scrollWidth - tipTrack.offsetWidth;
-
-            if (direction === 'next') {
-                currentScrollPos = Math.min(currentScrollPos + cardWidth, maxScroll);
-            } else {
-                currentScrollPos = Math.max(currentScrollPos - cardWidth, 0);
-            }
-
-            // Apply the "slow and nice" movement
-            tipTrack.style.transform = `translateX(-${currentScrollPos}px)`;
+    if(slides.length > 0) {
+        const nextHeroSlide = () => {
+            slides[currentHeroSlide].classList.remove('active');
+            currentHeroSlide = (currentHeroSlide + 1) % slides.length;
+            slides[currentHeroSlide].classList.add('active');
         };
 
-        nextBtn.addEventListener('click', () => slideTips('next'));
-        prevBtn.addEventListener('click', () => slideTips('prev'));
+        // Transition image every 6 seconds
+        setInterval(nextHeroSlide, 6000);
     }
 
-
-    // --- 3. Navbar Glassmorphism ---
+    // --- 2. Navbar Glassmorphism on Scroll ---
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
+    
+    const handleScroll = () => {
         if (window.scrollY > 50) {
-            navbar.classList.add('glass-effect', 'shadow-md', 'py-2');
-            navbar.classList.remove('py-4');
+            navbar.classList.add('navbar-scrolled');
         } else {
-            navbar.classList.remove('glass-effect', 'shadow-md', 'py-2');
-            navbar.classList.add('py-4');
+            navbar.classList.remove('navbar-scrolled');
         }
-    });
+    };
 
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Trigger on load in case user is already scrolled down
 
-    // --- 4. Reveal on Scroll Animation ---
+    // --- 3. Reveal on Scroll Animation ---
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    
     const revealOnScroll = () => {
+        const windowHeight = window.innerHeight;
+        
         revealElements.forEach(el => {
             const elementTop = el.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
+            // Reveal element when it is 100px into the viewport
             if (elementTop < windowHeight - 100) {
                 el.classList.add('active');
             }
@@ -70,16 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll(); // Initial check
+    revealOnScroll(); // Initial check on page load
 
-
-    // --- 5. Smooth Navigation ---
+    // --- 4. Smooth Navigation for Anchor Links ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         });
     });
